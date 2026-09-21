@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-parchment text-ink font-sans;
+}
+
+::selection {
+  background: #B9872F55;
+}
+
+*:focus-visible {
+  outline: 2px solid #B9872F;
+  outline-offset: 2px;
+}
+
+.spine {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
