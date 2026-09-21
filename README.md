@@ -7,6 +7,48 @@ book-cafe/
   backend/    Node.js + Express + TypeScript + SQLite
 ```
 
+## Docker va Docker Compose orqali ishga tushirish (Tavsiya etiladi)
+
+Loyiha to'liq Docker muhitida ishlab chiqarishga tayyor holatda sozlangan:
+- **Backend**: Ko'p bosqichli (multi-stage) Dockerfile, `better-sqlite3` native kutubxonasini avtomatik kompilyatsiya qiladi, xavfsiz `node` foydalanuvchisi ostida ishlaydi (Port: `4000:4000`).
+- **Frontend**: Vite orqali statik build qilinib, `serve` (`serve -s dist -l 3000`) orqali tarqatiladi, SPA routing (HTML5 history) to'liq qo'llab-quvvatlanadi, API so'rovlari backend'ga (`http://localhost:4000/api`) yuboriladi (Portlar: `80:3000`, `5173:3000`).
+- **Persistent Volume**: `bookcafe_data` Docker volume orqali SQLite bazasi (`/app/data/bookcafe.db`) konteyner o'chirib yoqilganda ham to'liq saqlanib qoladi.
+
+### 1. Barcha konteynerlarni qurish va ishga tushirish
+```bash
+docker compose up -d --build
+```
+
+### 2. Holatni va jurnallarni (logs) tekshirish
+```bash
+# Konteynerlar holatini tekshirish:
+docker compose ps
+
+# Barcha loglarni ko'rish:
+docker compose logs -f
+
+# Faqat backend yoki frontend loglarini ko'rish:
+docker compose logs -f backend
+docker compose logs -f frontend
+```
+
+### 3. Portlar va havolalar
+- **Frontend**: `http://localhost` (yoki `http://localhost:80`, `http://localhost:5173`)
+- **Backend**: `http://localhost:4000`
+
+### 4. Konteynerlarni to'xtatish
+```bash
+# Konteynerlarni to'xtatish (ma'lumotlar saqlanadi):
+docker compose down
+
+# Konteynerlarni to'xtatish va hajmni (volume) tozalash:
+docker compose down -v
+```
+
+---
+
+## Qo'lda (Manual) ishga tushirish
+
 ## 1. Backend'ni ishga tushirish
 ```bash
 cd backend
